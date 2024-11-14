@@ -1,43 +1,33 @@
 // src/pages/Dashboard.js
-import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Container } from '@mui/material';
-import EventCard from '../components/EventCard';
-import Sidebar from '../components/Sidebar';
-import socket from '../sockets/socket';
-import { fetchEvents } from '../services/eventService';
+import React from 'react';
+import { Container, Grid, Typography, Paper, Box } from '@mui/material';
+import CalendarView from '../components/CalendarView';
+import EventList from '../components/EventList';
+import NotificationCenter from '../components/NotificationCenter';
+import SearchFilterBar from '../components/SearchFilterBar';
 
 const Dashboard = () => {
-    const [events, setEvents] = useState([]);
-
-    useEffect(() => {
-        fetchEvents().then(setEvents);
-
-        socket.on('newEvent', (newEvent) => setEvents((prev) => [...prev, newEvent]));
-        socket.on('updatedEvent', (updatedEvent) =>
-            setEvents((prev) =>
-                prev.map((event) => (event.id === updatedEvent.id ? updatedEvent : event))
-            )
-        );
-
-        return () => {
-            socket.off('newEvent');
-            socket.off('updatedEvent');
-        };
-    }, []);
-
     return (
-        <Container maxWidth="lg">
-            <Sidebar />
-            <Typography variant="h4" gutterBottom>
-                Dashboard
-            </Typography>
-            <Grid container spacing={3}>
-                {events.map((event) => (
-                    <Grid item xs={12} sm={6} md={4} key={event.id}>
-                        <EventCard event={event} />
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Paper elevation={3} sx={{ padding: 3, backgroundColor: '#f5f5f5' }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography variant="h4" color="primary" gutterBottom>
+                        My Dashboard
+                    </Typography>
+                    <NotificationCenter />
+                </Box>
+
+                <SearchFilterBar />
+
+                <Grid container spacing={4} sx={{ mt: 2 }}>
+                    <Grid item xs={12} md={8}>
+                        <CalendarView />
                     </Grid>
-                ))}
-            </Grid>
+                    <Grid item xs={12} md={4}>
+                        <EventList />
+                    </Grid>
+                </Grid>
+            </Paper>
         </Container>
     );
 };
