@@ -2,10 +2,8 @@
 import React from 'react';
 import { List, ListItem, ListItemText, IconButton, Typography, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ShareIcon from '@mui/icons-material/Share';
 
-const EventList = ({ events = [], onEdit, onDelete, onPromote }) => (
+const EventList = ({ events = [], onEdit }) => (
     <Paper elevation={3} sx={{ padding: 2, backgroundColor: '#fff' }}>
         <Typography variant="h6" color="secondary" gutterBottom>
             My Events
@@ -25,14 +23,8 @@ const EventList = ({ events = [], onEdit, onDelete, onPromote }) => (
                         secondary={`${event.date} at ${event.location}`}
                         sx={{ color: '#555' }}
                     />
-                    <IconButton edge="end" color="primary" onClick={() => onEdit(event)}>
+                    <IconButton edge="end" color="primary" onClick={() => onEdit(event.id)}>
                         <EditIcon />
-                    </IconButton>
-                    <IconButton edge="end" color="secondary" onClick={() => onDelete(event.id)}>
-                        <DeleteIcon />
-                    </IconButton>
-                    <IconButton edge="end" color="primary" onClick={() => onPromote(event.id)}>
-                        <ShareIcon />
                     </IconButton>
                 </ListItem>
             ))}
