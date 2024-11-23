@@ -22,3 +22,7 @@ export const login = async (userData) => {
 export const logout = () => {
     localStorage.removeItem('token');
 };
+// New helper function to check authentication
+export const isAuthenticated = () => {
+    return !!localStorage.getItem('token'); // Return true if token exists
+};
