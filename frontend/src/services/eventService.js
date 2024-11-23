@@ -1,15 +1,39 @@
-// src/services/eventService.js
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = 'http://localhost:5000/api/events';
 
-export const createEvent = (eventData) => axios.post(`${API_URL}/events`, eventData);
+// Fetch all events for the logged-in user
+export const fetchEvents = async () => {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(API_URL, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};
 
-export const fetchEvents = () => axios.get(`${API_URL}/events`);
+// Add a new event
+export const addEvent = async (eventData) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(API_URL, eventData, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};
 
-export const updateEvent = (eventId, updatedData) =>
-    axios.put(`${API_URL}/events/${eventId}`, updatedData);
+// Update an event
+export const updateEvent = async (id, eventData) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.put(`${API_URL}/${id}`, eventData, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};
 
-export const deleteEvent = (eventId) => axios.delete(`${API_URL}/events/${eventId}`);
-
-export const promoteEvent = (eventId) => axios.post(`${API_URL}/events/${eventId}/promote`);
+// Delete an event
+export const deleteEvent = async (id) => {
+    const token = localStorage.getItem('token');
+    const response = await axios.delete(`${API_URL}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};
