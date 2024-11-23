@@ -131,7 +131,8 @@ const Dashboard = () => {
                         <CalendarView events={events} onEditEvent={handleEditEvent} />
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <EventList events={events} onDeleteEvent={handleDeleteEvent} />
+                        {/* EventList Component with proper handlers */}
+                        <EventList events={events} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
                     </Grid>
                 </Grid>
             </Paper>
