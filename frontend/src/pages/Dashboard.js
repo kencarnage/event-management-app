@@ -16,6 +16,7 @@ const Dashboard = () => {
     const [currentEvent, setCurrentEvent] = useState(null);
     const navigate = useNavigate();
 
+    // Load Events
     useEffect(() => {
         if (isAuthenticated()) {
             setLoggedIn(true);
@@ -32,20 +33,23 @@ const Dashboard = () => {
         }
     };
 
+    // Add Event
     const handleAddEvent = () => {
-        setCurrentEvent(null); // Ensure no existing event is being edited
+        setCurrentEvent(null); // Reset current event
         setOpenModal(true);
     };
 
+    // Edit Event
     const handleEditEvent = (event) => {
-        setCurrentEvent(event);
+        setCurrentEvent(event); // Populate modal with event data
         setOpenModal(true);
     };
 
+    // Save Event (Add or Update)
     const handleSaveEvent = async (eventData) => {
         try {
             if (currentEvent) {
-                // Update event
+                // Update existing event
                 const updatedEvent = await updateEvent(currentEvent._id, eventData);
                 setEvents((prev) =>
                     prev.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
@@ -61,6 +65,7 @@ const Dashboard = () => {
         }
     };
 
+    // Delete Event
     const handleDeleteEvent = async (id) => {
         try {
             await deleteEvent(id);
@@ -70,16 +75,19 @@ const Dashboard = () => {
         }
     };
 
+    // Logout
     const handleLogout = () => {
         logout();
         setLoggedIn(false);
         navigate('/login');
     };
 
+    // Redirect to Login
     const handleLogin = () => {
         navigate('/login');
     };
 
+    // Redirect to Register
     const handleRegister = () => {
         navigate('/register');
     };
@@ -97,36 +105,19 @@ const Dashboard = () => {
                 <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mt: 2, mb: 2 }}>
                     {loggedIn ? (
                         <>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleAddEvent}
-                            >
+                            <Button variant="contained" color="primary" onClick={handleAddEvent}>
                                 Add Event
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={handleLogout}
-                            >
+                            <Button variant="contained" color="error" onClick={handleLogout}>
                                 Logout
                             </Button>
                         </>
                     ) : (
                         <Box>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                sx={{ mr: 2 }}
-                                onClick={handleLogin}
-                            >
+                            <Button variant="outlined" color="primary" sx={{ mr: 2 }} onClick={handleLogin}>
                                 Login
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={handleRegister}
-                            >
+                            <Button variant="contained" color="secondary" onClick={handleRegister}>
                                 Register
                             </Button>
                         </Box>
